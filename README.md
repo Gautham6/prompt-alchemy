@@ -9,7 +9,7 @@
 
 </td>
 <td align="right" width="240">
-  <img src="screenshots/promptalchemy-avatar.png" alt="PromptAlchemy Agent" width="200" />
+  <img src="screenshots/PromptAlchemy-Avatar.png" alt="PromptAlchemy Agent" width="200" />
 </td>
   </tr>
 </table>
