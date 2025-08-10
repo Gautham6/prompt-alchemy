@@ -20,6 +20,12 @@
 
 **PromptAlchemy** is a workflow system and agent layer for turning messy creative ideas into structured, tested, and reusable prompts — ready to be deployed across GPT-powered workflows, brand systems, or product features.
 
+### Why PromptAlchemy?
+- 🧪 Stop rebuilding prompts from scratch every time
+- 🧰 Turn chaotic experiments into organized, reusable prompt assets
+- 🧠 Reduce repetition, improve consistency, and scale team knowledge
+- 🧼 Clean up the messy vaults of half-working prompt drafts
+
 This tool is built for **creative teams, strategists, and prompt engineers** who want to:
 - Organize prompt libraries by function, format, and use case
 - Break down unstructured ideas into reusable components
@@ -47,10 +53,11 @@ Each sub-agent is anthropomorphized lab equipment with a specific QA function �
 
 1. **Input:** Paste in an unstructured prompt or idea
 2. **Extraction:** The Extractor pulls purpose, context, and target output
-3. **Classification:** The Classifier tags it by prompt type (e.g. Ideation, Rewrite, Research), format, and structure
-4. **Refinement:** The Refiner polishes for clarity, tone, and platform fit
-5. **Validation:** The Validator stress-tests and flags edge cases, ambiguity, or weak phrasing
-6. **Output:** A structured, metadata-rich prompt entry ready to be added to your Prompt Vault
+3. **Classification:** The Classifier tags it by type, format, tone, and use case
+4. **Refinement:** The Refiner polishes for clarity, voice, and task success
+5. **Validation:** The Validator stress-tests edge cases and flags ambiguity
+6. **Shared Memory:** All outputs are stored in a prompt library for future reuse
+7. **Output:** A structured, metadata-rich prompt ready for vault or deployment
 
 ---
 
@@ -86,14 +93,27 @@ Each sub-agent is anthropomorphized lab equipment with a specific QA function �
 ⸻
 
 ## 🚧 Status
-- Persona Defined
-- Core Prompt Flow Mapped
-- Visual Identity Generated
-- JSON + Markdown Output Templates Finalized
-- n8n Integration (Optional)
-- Ready for Showcase or Submission
+- [x] Project scoped
+- [ ] MVP built
+- [ ] Vault integration started
+- [ ] Live test deployed
 
-⸻
+---
+
+## 🛣️ Next Steps & Roadmap
+
+This agent is designed to evolve. Here’s what’s ahead:
+
+- 🔄 **Live Demo Prompt Form** — drag-and-drop form to submit raw ideas  
+- 🧾 **Multi-format Output Options** — JSON, Markdown, Notion DB export  
+- 🧠 **Personalized Memory Layer** — save prompts by user/project/team  
+- 🧪 **Performance Testing Layer** — run/test prompt variants across models  
+- 🧰 **PromptKit Integration** — version control + testing notes  
+- ⚙️ **n8n Integration** — trigger prompt refinement workflows via webhook  
+
+Long-term goal: a full-stack PromptOps toolkit for creative and marketing teams.
+
+---
 
 ## 🧠 Creator Notes
 
@@ -105,4 +125,4 @@ This system helps bring structure without losing soul.
 
 👤 Created by Ros Talbot
 
-Lightweight AI tools designed for humans first.
+_Lightweight AI tools designed for humans first._
