@@ -5,6 +5,7 @@
     <td>
 
 **Project Type:** Prompt Library Agent + Creative QA System  
+<br><br>
 **Agent Role:** A digital alchemist who transforms chaotic creative input into clean, high-performing prompt recipes.
 
 </td>
